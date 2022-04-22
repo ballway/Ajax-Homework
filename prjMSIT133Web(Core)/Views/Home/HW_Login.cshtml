@@ -1,0 +1,46 @@
+﻿
+@{
+    ViewData["Title"] = "HW_Login";
+}
+
+<h1>作業: Login</h1>
+<br />
+<input type="text" placeholder="user name" id="inputName" />
+<h3 id="responseName"></h3>
+<hr />
+<input type="text" placeholder="user age" id="inputEmail" />
+<h3 id="responseEmail"></h3>
+<hr />
+<input type="button" value="註冊" id="button1" />
+
+@section Scripts{
+    <script>
+        const btn = document.querySelector('#button1');
+        const txtName = document.querySelector('#inputName');
+        const txtEmail = document.querySelector('#inputEmail');
+        const responseName = document.querySelector('#responseName');
+        const responseEmail = document.querySelector('#responseEmail');
+
+        //步驟一建立Ajax物件
+        const xhr = new XMLHttpRequest();
+
+        txtName.addEventListener('blur', () => {
+
+            //步驟三接收伺服器回傳的結果(Response)
+            xhr.addEventListener("load", () => {
+                //接收結果
+                const data = xhr.responseText;
+                //顯示在div中
+                responseName.innerHTML = data;
+                console.log("load")
+            })
+
+            //步驟二對伺服器發出要求(Request)
+            xhr.open("GET", `/api/CheckName?name=${txtName.value}`); //打開瀏覽器輸入網址
+            xhr.send(); //Enter鍵
+        })
+
+    </script>
+}
+
+

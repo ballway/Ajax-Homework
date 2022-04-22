@@ -1,0 +1,71 @@
+﻿
+@{
+    ViewData["Title"] = "AjaxPost";
+}
+
+<h1>AjaxPost</h1>
+<div class="row">
+    <div class="col-6">
+        <form method="post">
+            <div class="form-group">
+                <label for="name">姓名</label>
+                <input type="text" class="form-control" id="name" name="name">
+            </div>
+            <div class="form-group">
+                <label for="email">電子郵件</label>
+                <input type="email" class="form-control" id="email" name="email">
+            </div>
+            <div class="form-group">
+                <label for="age">年紀</label>
+                <input type="number" class="form-control" id="age" name="age">
+            </div>
+            <div class="form-group form-check">
+                <input type="checkbox" class="form-check-input" id="exampleCheck1">
+                <label class="form-check-label" for="exampleCheck1">Check me out</label>
+            </div>
+            <button type="submit" class="btn btn-primary">Submit</button>
+            <button type="reset" class="btn btn-primary">Clear</button>
+            <button type="button" class="btn btn-primary">Button</button>
+        </form>
+
+        <div class="alert alert-primary" role="alert" id="div1">
+            @*@ViewBag.name*@
+        </div>
+    </div>
+</div>
+
+@section Scripts{ 
+    <script>
+        const txtName = document.querySelector("#name");
+        const txtEmail = document.querySelector("#email");
+        const txtAge = document.querySelector("#age");
+
+        const div1 = document.querySelector("#div1");
+        const btn = document.querySelector('button[type="submit"]');
+
+
+        btn.addEventListener('click', (xyz) => {
+            xyz.preventDefault(); //取消預設的行為 (在這邊是把submit的預設功能給關掉)
+            console.log("button click");
+
+            //ajax post
+            //.......
+
+            //step 1
+            const xhr = new XMLHttpRequest();
+
+            //step 3
+            xhr.addEventListener("load", () => {
+                const data = xhr.responseText;
+                div1.textContent = data;
+            })
+
+            //step 2
+            const params = `name=${txtName.value}&age=${txtAge.value}&email=${txtEmail.value}`
+            xhr.open("post", "@Url.Content("~/api/Register")");
+            xhr.setRequestHeader("Content-Type","application/x-www-form-urlencoded")
+            xhr.send(params);
+
+        });
+    </script>
+}

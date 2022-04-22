@@ -1,0 +1,32 @@
+﻿
+@{
+    ViewData["Title"] = "Address";
+}
+
+<h1>Address</h1>
+<select id="select1">
+    @*<option value="1">Item1</option>
+    <option value="2">Item2</option>*@
+</select>
+
+@section Scripts{ 
+    <script>
+        const selCity = document.querySelector("#select1")
+        const xhr = new XMLHttpRequest();
+        xhr.addEventListener("load", () => {
+            const datas = JSON.parse(xhr.responseText);
+            //步驟4.讀出JSON資料
+            console.log(datas);
+            datas.forEach((item) => {
+                console.log(item.city);
+                //步驟5.顯示資料
+                const option = new Option(item.city, item.city);
+                selCity.options.add(option);
+            })
+            
+        })
+
+        xhr.open("get", "@Url.Content("~/api/city")");
+        xhr.send();
+    </script>
+}

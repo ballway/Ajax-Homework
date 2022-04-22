@@ -1,0 +1,43 @@
+﻿
+@{
+    ViewData["Title"] = "AAA";
+}
+
+<h1>Ajax練習</h1>
+<input type="text"  id="txtname" />
+<input type="text" id="txtage" />
+<input type="button" value="Ajax" id="button1" />
+<div id="div1"></div>
+
+@section Scripts{
+    <script>
+        const btn = document.querySelector('#button1');
+        const divMessage = document.querySelector('#div1');
+        const name = document.querySelector('#txtname');
+        const age = document.querySelector('#txtage');
+
+        btn.addEventListener('click', () => {
+
+            //步驟一. 建立Ajax物件
+            const xhr = new XMLHttpRequest();
+
+            //步驟三. 接收伺服器回傳的結果 (Request)
+            xhr.addEventListener("load", () => {
+                //在load事件( 伺服器已經回傳結果到Client端了 )觸發後執行
+
+                //接收結果顯示在div中
+                divMessage.innerHTML = xhr.responseText;
+            })
+
+            //const url = "@Url.Action(" Index","api")";
+            const url = "@Url.Content("~/api/index")";
+            const params = `?name=${name.value}&age=${age.value}`
+
+            //步驟二. 對伺服器發出要求 (Request)
+            //xhr.open("GET", "/api/index?name=Tracy&age=21");       //相當於打開瀏覽器，並輸入網址
+            xhr.open("GET", `${url}${params}`);
+            xhr.send();       //相當於按下enter的動作
+
+        })
+    </script>
+}

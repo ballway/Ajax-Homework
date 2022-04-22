@@ -1,0 +1,72 @@
+﻿
+@{
+    ViewData["Title"] = "FirstAjax";
+}
+
+<h1>FirstAjax</h1>
+
+<input type="button" value="Ajax" id="button1" />
+<input type="button" value="Abort" id="button2" />
+<div id="div1"></div>
+
+@section Scripts{ 
+    <script>
+            const btn = document.querySelector('#button1');
+            const btnStop = document.querySelector('#button2');
+            const divMessage = document.querySelector('#div1');
+
+            //步驟一. 建立Ajax物件
+            const xhr = new XMLHttpRequest();
+
+            btn.addEventListener('click', () => {
+
+                //步驟三. 接收伺服器回傳的結果 (Request)
+                xhr.addEventListener("load", () => {
+                    //在load事件( 伺服器已經回傳結果到Client端了 )觸發後執行
+
+                    //接收結果顯示在div中
+                    divMessage.innerHTML = xhr.responseText;
+                })
+
+                xhr.addEventListener("loadstart", () => {
+                    console.log('loadstart');
+                    btn.value = "loading...";
+                    btn.setAttribute('disabled', 'disabled');
+                })
+
+                xhr.addEventListener("loadend", () => {
+                    console.log('loadend');
+                    btn.value = "Load";
+                    btn.removeAttribute('disabled')
+                })
+
+                //timeout設定的時間到了，伺服器還沒回傳結果
+                xhr.addEventListener('timeout', () => {
+                    console.log('TIMEOUT');
+                    divMessage.innerHTML="伺服器忙碌中，請稍後再來"
+                })
+
+                //abort()方法執行時，會觸發abort事件
+                xhr.addEventListener('abort', () => {
+                    console.log('abort');
+                    divMessage.innerHTML = "取消執行"
+                })
+
+                //const url = "@Url.Action(" Index","api")";
+                @*const url = "@Url.Content("~/api/index")";
+                const params = `?name=${txtName.value}&age=${txtAge.value}`*@
+
+                //步驟二. 對伺服器發出要求 (Request)
+                xhr.open("GET", "/api/index?name=Tracy&age=21");       //相當於打開瀏覽器，並輸入網址
+                //xhr.open("GET", `${url}${params}`);
+                xhr.timeout = 5000;
+                xhr.send();       //相當於按下enter的動作
+
+            })
+
+            //使用者可以取消程式的執行
+            btnStop.addEventListener('click', () => {
+                xhr.abort();
+            })
+    </script>
+}
