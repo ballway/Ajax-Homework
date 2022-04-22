@@ -100,10 +100,25 @@ namespace prjMSIT133Web_Core_.Controllers
             //return Content($"Hello {user.name}, you are {user.age} years old. 電子郵件: {user.email}", "text/plain", System.Text.Encoding.UTF8);  //避免中文亂碼
         }
 
+        //讀出城市名稱
         public IActionResult City()
         {
             var cities = _context.Addresses.Select(c => new { c.City }).Distinct().OrderBy(c => c.City);
             return Json(cities);
+        }
+
+        //讀出鄉鎮區
+        public IActionResult Districts(string city)
+        {
+            var districts = _context.Addresses.Where(c => c.City==city).Select(a => new { a.SiteId }).Distinct().OrderBy(d => d.SiteId);
+            return Json(districts);
+        }
+
+        //讀出路名
+        public IActionResult Roads(string district)
+        {
+            var roads = _context.Addresses.Where(r => r.SiteId == district).Select(a => new { a.Road }).Distinct().OrderBy(r => r.Road);
+            return Json(roads);
         }
     }
 }
