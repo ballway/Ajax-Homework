@@ -1,0 +1,91 @@
+﻿
+@{
+    ViewData["Title"] = "Address_completed";
+}
+
+<h1>Address</h1>
+<select id="select1">
+    @*
+    <option value="1">Item1</option>
+    <option value="2">Item2</option>
+    <option value="3">text</option>*@
+</select>
+<select id="select2"></select>
+<select id="select3"></select>
+@section Scripts{
+<script>
+    const selCity = document.querySelector('#select1');
+    const selDistrict = document.querySelector('#select2');
+    const selRoad = document.querySelector('#select3');
+    selCity.addEventListener('change', () => {
+        console.log(selCity.options[selCity.selectedIndex].value);
+    })
+
+    //=======City資料載入到select標籤中===========
+    const xhr = new XMLHttpRequest();
+    xhr.addEventListener('load', () => {
+        const datas = JSON.parse(xhr.responseText);
+        //console.log(datas);
+        //步驟四讀出JSON資料
+        datas.forEach((item) => {
+            //console.log(item.city);
+            //步驟五顯示資料
+            const opt = new Option(item.city, item.city);
+            selCity.options.add(opt);
+
+        })
+
+        //========鄉鎮區資料載入到select標籤中==================
+        const xhr1 = new XMLHttpRequest();
+        xhr1.addEventListener('load', () => {
+            const datas = JSON.parse(xhr1.responseText);
+            // console.log(datas);
+            //步驟四讀出JSON資料
+            datas.forEach((item) => {
+                //console.log(item.city);
+                //步驟五顯示資料
+                const opt = new Option(item.siteId, item.siteId);
+                selDistrict.options.add(opt);
+
+            })
+
+            //=========路名資料載入到select標籤中=================
+            const xhr2 = new XMLHttpRequest();
+            xhr2.addEventListener('load', () => {
+                const datas = JSON.parse(xhr2.responseText);
+                //console.log(datas);
+                //步驟四讀出JSON資料
+                datas.forEach((item) => {
+                    //console.log(item.city);
+                    //步驟五顯示資料
+                    const opt = new Option(item.road, item.road);
+                    selRoad.options.add(opt);
+
+                })
+            })
+            const district = selDistrict.options[selDistrict.selectedIndex].value
+            xhr2.open("get", "@Url.Content("~/api/roads")" + "?district=" + district);
+            xhr2.send();
+
+        })
+        const city = selCity.options[selCity.selectedIndex].value;
+        xhr1.open("get", "@Url.Content("~/api/districts")" + "?city=" + city);
+        xhr1.send();
+
+
+    })
+    xhr.open("get", "@Url.Content("~/api/city")");
+    xhr.send();
+
+        //這裡讀得到city資料嗎?
+      //  console.log(selCity.options[selCity.selectedIndex].value);
+        //讀不到，因為程式執行到這行時，資料還沒有塞進select標籤中(非同步)
+
+
+
+
+
+
+</script>
+}
+

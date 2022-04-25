@@ -1,0 +1,89 @@
+﻿
+@{
+    ViewData["Title"] = "Promise";
+}
+
+<h1>Promise</h1>
+
+@section Scripts{ 
+<script>
+    //setTimeout(function () {
+    //    console.log('A');
+    //},3000);
+    //setTimeout(function () {
+    //    console.log('B');
+    //}, 2000);
+    //setTimeout(function () {
+    //    console.log('C');
+    //}, 1000);
+
+    //setTimeout(function () {
+    //    console.log('A');
+    //    setTimeout(function () {
+    //        console.log('B');
+    //        setTimeout(function () {
+    //            console.log('C');
+    //        }, 1000);
+    //    }, 1000);
+    //}, 1000);
+
+    ////建立promise物件
+    //const promise = new Promise(function (resolve, reject) {
+    //    //非同步的程式
+    //    const num = Math.random() > 0.5 ? 1 : 0;
+    //    console.log(num);
+
+    //    if (num) {
+    //        resolve("成功");
+    //    } else {
+    //        reject("失敗");
+    //    }
+    //})
+
+    ////promise使用
+    //promise
+    //    .then(result => {
+    //        console.log(result)
+    //    })
+    //    .catch(error => {
+    //        console.log(error)
+    //    })
+    //    .finally(() => {
+    //        console.log("end")
+    //    })
+
+    function printSomething(data) {
+        const promise = new Promise(function (resolve, reject) {
+            if (data == "D") reject("傳錯了");
+            setTimeout(() => {
+                resolve(data)
+            },1000)
+        })
+        return promise;
+    }
+
+    printSomething("A")
+        .then(data => {
+            console.log(data);
+            return printSomething("B")               
+        })
+        .then(data => {
+            console.log(data);
+            return printSomething("C")
+        })
+        .then(data => {
+            console.log(data);
+            return printSomething("D")
+        })
+        .then(data => {
+            console.log("D："+ data);
+        })
+        .catch(error => {
+            console.log(error);
+        })
+            
+
+</script>
+
+
+}

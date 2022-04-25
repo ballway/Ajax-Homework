@@ -120,5 +120,13 @@ namespace prjMSIT133Web_Core_.Controllers
             var roads = _context.Addresses.Where(r => r.SiteId == district).Select(a => new { a.Road }).Distinct().OrderBy(r => r.Road);
             return Json(roads);
         }
+
+        //顯示圖片用
+        public IActionResult GetImageByte(int id=1)
+        {
+            Member mem = _context.Members.Find(id);
+            byte[] img = mem.FileData;
+            return File(img, "image/jpeg");
+        }
     }
 }

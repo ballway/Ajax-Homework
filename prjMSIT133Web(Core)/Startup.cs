@@ -27,7 +27,7 @@ namespace prjMSIT133Web_Core_
         {
             services.AddDbContext<DemoContext>(options =>
             {
-                options.UseSqlServer(Configuration.GetConnectionString("NorthwindConnection"));
+                options.UseSqlServer(Configuration.GetConnectionString("DemoConnection"));
             });
             services.AddControllersWithViews();
         }
