@@ -1,6 +1,6 @@
 ﻿
 @{
-    ViewData["Title"] = "AjaxFormData_Fetch";
+    ViewData["Title"] = "AjaxFormData";
 }
 
 <h1>AjaxPost</h1>
@@ -37,34 +37,38 @@
         </div>
     </div>
 </div>
-
-@section Scripts{ 
+@section Scripts{
     <script>
-        const div1 = document.querySelector("#div1");
-        const btn = document.querySelector('button[type="submit"]');
+    const btn = document.querySelector('button[type="submit"]');
+    const divMessage = document.querySelector('#div1');
 
+    btn.addEventListener("click", (evt) => {
+        evt.preventDefault(); //取消預設的行為
 
-        btn.addEventListener('click', (xyz) => {
-            xyz.preventDefault(); //取消預設的行為 (在這邊是把submit的預設功能給關掉)
-            console.log("button click");
-
-            //ajax post
-            //.......
-
-            //step 1
-            const xhr = new XMLHttpRequest();
-
-            //step 3
-            xhr.addEventListener("load", () => {
-                const data = xhr.responseText;
-                div1.textContent = data;
+        const formData = new FormData(document.member);
+        //改用fetch
+        fetch("@Url.Content("~/api/register")", {
+            method: "post",
+            body:formData
+        }).then(response => response.text())
+            .then(data => {
+                divMessage.textContent = data;
             })
 
-            //step 2
-            const formData = new FormData(document.member);
-            xhr.open("post", "@Url.Content("~/api/Register")");
-            xhr.send(formData);
+        @*const xhr = new XMLHttpRequest();
 
-        });
+        xhr.addEventListener('load', () => {
+            const data = xhr.responseText;
+            divMessage.textContent = data;
+        })
+
+        //step2
+        const formData = new FormData(document.member);
+        xhr.open("post", "@Url.Content("~/api/register")");
+        xhr.send(formData);*@
+
+
+    })
     </script>
+
 }
