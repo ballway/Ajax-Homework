@@ -79,6 +79,10 @@ namespace prjMSIT133Web_Core_.Controllers
         {
             return View();
         }
+        public IActionResult jQuery()
+        {
+            return View();
+        }
         
 
         public IActionResult Promise()

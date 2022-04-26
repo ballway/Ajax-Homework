@@ -1,0 +1,59 @@
+﻿
+@{
+    ViewData["Title"] = "jQuery";
+}
+
+<h1>jQuery</h1>
+<button id="buttonGet" class="btn btn-primary">get</button>
+<button id="buttonPost" class="btn btn-secondary">post</button>
+<button id="buttonJson" class="btn btn-success">getJson</button>
+<button id="buttonLoad" class="btn btn-info">load</button>
+<button id="buttonAjax" class="btn btn-warning">ajax</button>
+<button id="buttonCors" class="btn btn-danger">cors</button>
+<div class="alert alert-dark mt-3 w-50" role="alert" id="divAlert">
+
+</div>
+@section Scripts{
+    <script>
+
+        $('#buttonGet').click(function () {
+            $.get('@Url.Content("~/api/index")', { 'name': 'abc', 'age': 25 }, function (data) {
+                //data會收到伺服器回傳的結果
+                $('#divAlert').text(data);
+            })
+            /*$('#divAlert').text("GET")*/
+        })
+        $('#buttonPost').click(function () {
+            $.post('@Url.Content("~/api/index")', { 'name': 'bbb', 'age': 24 }, function (data) {
+                //data會收到伺服器回傳的結果
+                $('#divAlert').text(data);
+            })
+            /*$('#divAlert').text("POST")*/
+        })
+        $('#buttonJson').click(function () {
+            $.getJSON('@Url.Content("~/api/city")', function (datas) {
+                //datas就是JSON物件
+                console.log(datas);
+
+                let ul = $('<ul></ul>').addClass('list-group');
+                $.each(datas, function (index, item) {
+                    console.log(item.city);
+                    const li = $('<li></li>').text(item.city).addClass('list-group-item');
+                    ul.append(li);
+                })
+                $('#divAlert').html(ul);
+            })
+            /*$('#divAlert').text("JSON")*/
+        })
+        $('#buttonLoad').click(function () {
+            $('#divAlert').text("LOAD")
+        })
+        $('#buttonAjax').click(function () {
+            $('#divAlert').text("AJAX")
+        })
+        $('#buttonCors').click(function () {
+            $('#divAlert').text("CORs")
+        })
+
+    </script>
+}
