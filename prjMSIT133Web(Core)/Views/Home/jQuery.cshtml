@@ -8,7 +8,8 @@
 <button id="buttonPost" class="btn btn-secondary">post</button>
 <button id="buttonJson" class="btn btn-success">getJson</button>
 <button id="buttonLoad" class="btn btn-info">load</button>
-<button id="buttonAjax" class="btn btn-warning">ajax</button>
+<button id="buttonAjax1" class="btn btn-warning">ajax (GET)</button>
+<button id="buttonAjax2" class="btn btn-warning">ajax (POST)</button>
 <button id="buttonCors" class="btn btn-danger">cors</button>
 <div class="alert alert-dark mt-3 w-50" role="alert" id="divAlert">
 
@@ -46,10 +47,37 @@
             /*$('#divAlert').text("JSON")*/
         })
         $('#buttonLoad').click(function () {
-            $('#divAlert').text("LOAD")
+            $('#divAlert').load('@Url.Content("~/home/partial")');
+            /*$('#divAlert').text("LOAD")*/
         })
-        $('#buttonAjax').click(function () {
-            $('#divAlert').text("AJAX")
+        $('#buttonAjax1').click(function () {
+            //GET版本
+            $.ajax({
+                url: '@Url.Content("~/api/index")',
+                type: 'get',
+                data: {'name':'Paul','age':30}
+            }).done(function (data) {
+                $('#divAlert').text(data)
+            });
+
+            //$('#divAlert').text("AJAX")
+        })
+        $('#buttonAjax2').click(function () {
+            //POST版本
+            $.ajax({
+                url: '@Url.Content("~/api/city")',
+                type: 'post',
+                dataType:'json',
+            }).done(function (datas) {
+                let ul = $('<ul></ul>').addClass('list-group');
+                $.each(datas, function (index, item) {
+                    console.log(item.city);
+                    const li = $('<li></li>').text(item.city).addClass('list-group-item');
+                    ul.append(li);
+                })
+                $('#divAlert').html(ul);
+            });
+            //$('#divAlert').text("AJAX")
         })
         $('#buttonCors').click(function () {
             $('#divAlert').text("CORs")

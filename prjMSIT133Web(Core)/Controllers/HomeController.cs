@@ -83,7 +83,11 @@ namespace prjMSIT133Web_Core_.Controllers
         {
             return View();
         }
-        
+
+        public IActionResult Partial()
+        {
+            return PartialView();
+        }
 
         public IActionResult Promise()
         {
